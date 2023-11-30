@@ -1,35 +1,38 @@
 from conta import Conta
+from validators import Validator
 
-def validarCpf(cpf) -> int:
-    if len(cpf) != 11:
-                return False
 
-        # Calcular o primeiro dígito verificador
-    soma = 0
-    for i in range(9):
-        soma += int(cpf[i]) * (10 - i)
-    digito1 = (soma * 10) % 11
-    if digito1 == 10:
-        digito1 = 0
 
-    # Calcular o segundo dígito verificador
-    soma = 0
-    for i in range(10):
-        soma += int(cpf[i]) * (11 - i)
-    digito2 = (soma * 10) % 11
-    if digito2 == 10:
-        digito2 = 0
+def main(): 
+    # cpf = "577.954.920-61"
+    cpf = "111.222.333-11"
+    resultado = Validator.validarCpf(cpf)
 
-    # Verificar se os dígitos calculados são iguais aos dígitos fornecidos
-    if digito1 == int(cpf[9]) and digito2 == int(cpf[10]):
-        return cpf
+    if resultado == False:
+        print(f"O CPF informado é inválido!")
     else:
-        raise "Cpf digitado é inválido"
-    
-cpf = validarCpf("07897834130")
+        conta1 = Conta("Teste", cpf, 30.00)
+        if conta1.creditar(40.25) != -1:
+            print(f"{conta1.get_nome()} seu saldo é {conta1.get_saldo()}")
+        else:
+            print("O valor passado não pode ser negativo!")
 
+        print(Conta.get_numero_da_conta())
 
+    cpf2 = "111.222.333-11"
+    resultado2 = Validator.validarCpf(cpf2)
 
-conta = Conta(cpf, "Guilherme", 50.50)
+    if resultado2 == False:
+        print(f"O CPF informado é inválido!")
+    else:
+        conta2 = Conta("Guilherme", "044026", 50.00)
 
+        if conta2.creditar(-40.25) != -1:
+            print(conta2.get_saldo())
+        else:
+            print("O valor passado não pode ser negativo!")
+            print(f"{conta2.get_nome()} seu saldo é {conta2.get_saldo()}")
 
+        print(Conta.get_numero_da_conta)
+
+main()
